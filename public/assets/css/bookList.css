@@ -1,0 +1,8 @@
+.commentCol {
+  height: 60vh;
+  position: sticky;
+  top: 50px;
+  right: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
