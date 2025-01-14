@@ -1,54 +1,44 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
 import '/public/assets/css/singleBook.css';
 
-class SingleBook extends Component {
-  state = {
-    selected: false,
+const SingleBook = (props) => {
+  // state = {
+  //   selected: false,
+  // };
+  const [selected, setSelected] = useState(false);
+
+  const handleClick = () => {
+    props.putSelectedBook(props.book.asin);
   };
 
-  handleClick = () => {
-    // this.setState({ selected: !this.state.selected });
-    this.props.setSelectedBook(this.props.book.asin);
-  };
-
-  checkSelection = () => {
-    if (this.props.selectedBookAsin === this.props.book.asin) {
-      this.setState({ selected: true });
+  const checkSelection = () => {
+    if (props.selectedBookAsin === props.book.asin) {
+      setSelected(true);
     } else {
-      this.setState({ selected: false });
+      setSelected(false);
     }
   };
 
-  componentDidMount() {
-    this.checkSelection();
-  }
+  useEffect(() => {
+    checkSelection();
+  }, [props.selectedBookAsin]);
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.selectedBookAsin !== this.props.selectedBookAsin) {
-      this.checkSelection();
-    }
-  }
-
-  render() {
-    return (
-      <>
-        <Card
-          onClick={() => {
-            this.handleClick();
-          }}
-          style={{ border: this.state.selected ? '3px solid red' : 'none' }}
-        >
-          <Card.Img variant='top' src={this.props.book.img} />
-          <Card.Body>
-            <Card.Title style={{ color: 'black' }}>
-              {this.props.book.title}
-            </Card.Title>
-          </Card.Body>
-        </Card>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Card
+        onClick={() => {
+          handleClick();
+        }}
+        style={{ border: selected ? '3px solid red' : 'none' }}
+      >
+        <Card.Img variant='top' src={props.book.img} />
+        <Card.Body>
+          <Card.Title style={{ color: 'black' }}>{props.book.title}</Card.Title>
+        </Card.Body>
+      </Card>
+    </>
+  );
+};
 
 export default SingleBook;
